@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Illness &amp; Injury Vocabulary</title>
+<style>
+:root{
+  --bg:#f2ebdd;
+  --panel:#fbf7f0;
+  --card:#e9ddc6;
+  --card-soft:#f6f0e4;
+  --ink:#3a3128;
+  --muted:#7b6b57;
+  --line:#d8c8ab;
+  --accent:#8b6f4e;
+  --accent-ink:#fbf7f0;
+  --ok:#5f7d4f;
+  --ok-bg:#e4edda;
+  --bad:#a9503f;
+  --bad-bg:#f4e0da;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  padding:24px 16px 64px;
+}
+.wrap{max-width:980px;margin:0 auto}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:30px;margin:0 0 4px;letter-spacing:.2px}
+.sub{color:var(--muted);margin:0 0 22px;font-size:14px}
+h2{font-family:Georgia,serif;font-size:21px;margin:0 0 6px}
+.hint{color:var(--muted);font-size:14px;margin:0 0 18px}
+
+/* tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.tab{
+  border:1px solid var(--line);background:var(--panel);color:var(--muted);
+  padding:9px 16px;border-radius:999px;cursor:pointer;font-size:14px;font-weight:600;
+}
+.tab:hover{border-color:var(--accent)}
+.tab.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.panel{display:none}
+.panel.on{display:block}
+
+/* buttons */
+button.btn{
+  border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);
+  padding:9px 18px;border-radius:9px;cursor:pointer;font-size:14px;font-weight:600;
+}
+button.btn.ghost{background:transparent;color:var(--accent)}
+button.btn:hover{opacity:.9}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+.score{margin-left:auto;font-size:14px;color:var(--muted);font-weight:600}
+
+/* flashcards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.fc{perspective:1200px;height:235px;cursor:pointer}
+.fc-in{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+.fc.flip .fc-in{transform:rotateY(180deg)}
+.face{
+  position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  border:1px solid var(--line);border-radius:14px;padding:16px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.front{background:var(--card);align-items:center;text-align:center}
+.front .emo{font-size:46px;line-height:1;margin-bottom:12px}
+.front .term{font-family:Georgia,serif;font-size:20px;font-weight:700}
+.front .tap{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:11px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.back{background:var(--card-soft);transform:rotateY(180deg);justify-content:flex-start;overflow:auto}
+.back .term{font-family:Georgia,serif;font-size:15px;font-weight:700;margin-bottom:6px}
+.back .def{font-size:13.5px;margin-bottom:8px}
+.back .ex{font-size:13px;font-style:italic;color:var(--muted);border-left:2px solid var(--line);padding-left:8px;margin-bottom:8px}
+.back .ru{font-size:13px;color:var(--accent);font-weight:600;margin-top:auto}
+
+/* true / false */
+.tf{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+.tf .q{margin-bottom:10px}
+.tf .q b{color:var(--accent);margin-right:6px}
+.tf .opts{display:flex;gap:8px}
+.tf .opt{border:1px solid var(--line);background:var(--card-soft);padding:6px 18px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;color:var(--ink)}
+.tf .opt:hover{border-color:var(--accent)}
+.tf .opt.ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.tf .opt.bad{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+.tf .exp{display:none;margin-top:10px;font-size:13.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:9px}
+.tf.done .exp{display:block}
+
+/* gaps */
+.bank{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:18px}
+.bank .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 11px;font-size:13px}
+.chip.used{opacity:.35;text-decoration:line-through}
+.gap{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin-bottom:10px;font-size:15px}
+.gap b.n{color:var(--accent);margin-right:6px}
+input.blank{
+  border:none;border-bottom:2px solid var(--accent);background:transparent;color:var(--ink);
+  font:inherit;font-weight:600;padding:1px 4px;min-width:130px;text-align:center;
+}
+input.blank:focus{outline:none;background:var(--card-soft)}
+input.blank.ok{border-color:var(--ok);color:var(--ok)}
+input.blank.bad{border-color:var(--bad);color:var(--bad)}
+.sol{display:none;font-size:13px;color:var(--bad);margin-top:7px}
+.gap.show .sol{display:block}
+
+/* story */
+.story{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 24px;font-size:16.5px;line-height:2.05}
+.story p{margin:0 0 14px}
+.story h3{font-family:Georgia,serif;font-size:20px;margin:0 0 14px;text-align:center}
+select.sel{
+  font:inherit;font-size:15px;font-weight:600;color:var(--accent);
+  background:var(--card-soft);border:1px solid var(--line);border-radius:7px;padding:3px 6px;
+}
+select.sel.ok{border-color:var(--ok);background:var(--ok-bg);color:var(--ok)}
+select.sel.bad{border-color:var(--bad);background:var(--bad-bg);color:var(--bad)}
+
+/* notes */
+.note{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:10px;padding:14px 16px;margin-bottom:12px}
+.note h4{margin:0 0 7px;font-family:Georgia,serif;font-size:16px}
+.note p{margin:0 0 6px;font-size:14.5px}
+.note .x{color:var(--bad);font-weight:600}
+.note .v{color:var(--ok);font-weight:600}
+@media(max-width:560px){
+  body{padding:18px 12px 48px}
+  h1{font-size:24px}
+  .story{padding:16px;font-size:15.5px;line-height:1.95}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Illness &amp; Injury — Vocabulary Practice</h1>
+  <p class="sub">16 items · flashcards · true or false · gap-fill · story</p>
+
+  <div class="tabs">
+    <button class="tab on" data-t="fc">🗂️ Flashcards</button>
+    <button class="tab" data-t="tf">✅ True / False</button>
+    <button class="tab" data-t="gp">✏️ Fill the gaps</button>
+    <button class="tab" data-t="st">📖 Story</button>
+    <button class="tab" data-t="nt">💡 Usage notes</button>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <section class="panel on" id="fc">
+    <h2>Flashcards</h2>
+    <p class="hint">Click a card to flip it. Read the term, say the meaning out loud, then check.</p>
+    <div class="bar">
+      <button class="btn" id="fcShuffle">Shuffle</button>
+      <button class="btn ghost" id="fcFlip">Flip all</button>
+      <button class="btn ghost" id="fcReset">Reset</button>
+    </div>
+    <div class="grid" id="fcGrid"></div>
+  </section>
+
+  <!-- TRUE FALSE -->
+  <section class="panel" id="tf">
+    <h2>True or False?</h2>
+    <p class="hint">Choose an answer — the explanation appears immediately.</p>
+    <div class="bar"><button class="btn ghost" id="tfReset">Start again</button><span class="score" id="tfScore">0 / 14</span></div>
+    <div id="tfList"></div>
+  </section>
+
+  <!-- GAPS -->
+  <section class="panel" id="gp">
+    <h2>Fill in the gaps</h2>
+    <p class="hint">Use the right form of the word — tense, plural, everything.</p>
+    <div class="bank">
+      <div class="lbl">Word bank</div>
+      <div class="chips" id="gpBank"></div>
+    </div>
+    <div class="bar">
+      <button class="btn" id="gpCheck">Check</button>
+      <button class="btn ghost" id="gpShow">Show answers</button>
+      <button class="btn ghost" id="gpReset">Clear</button>
+      <span class="score" id="gpScore">— / 16</span>
+    </div>
+    <div id="gpList"></div>
+  </section>
+
+  <!-- STORY -->
+  <section class="panel" id="st">
+    <h2>The Worst Week at Hillside School</h2>
+    <p class="hint">Choose the right word in every gap, then check.</p>
+    <div class="bar">
+      <button class="btn" id="stCheck">Check</button>
+      <button class="btn ghost" id="stShow">Show answers</button>
+      <button class="btn ghost" id="stReset">Clear</button>
+      <span class="score" id="stScore">— / 16</span>
+    </div>
+    <div class="story" id="story"></div>
+  </section>
+
+  <!-- NOTES -->
+  <section class="panel" id="nt">
+    <h2>Usage notes</h2>
+    <p class="hint">The five places learners usually get this set wrong.</p>
+    <div class="note">
+      <h4>🏠 sick leave — no article</h4>
+      <p><span class="x">✗ on a sick leave</span> &nbsp; <span class="v">✓ on sick leave</span></p>
+      <p>He's <b>on sick leave</b>. She <b>went on sick leave</b> in May. He's been <b>off sick</b> all week (more spoken). The paper you bring to work is <b>a sick note</b> / <b>a doctor's note</b>.</p>
+    </div>
+    <div class="note">
+      <h4>🦶 strain vs sprain</h4>
+      <p><b>strain</b> = overstretch a muscle or tendon — <i>a strained hamstring, I strained my back</i>.</p>
+      <p><b>sprain</b> = twist the ligaments of a joint — <i>I sprained my ankle / wrist</i>. For an ankle, native speakers say <b>sprain</b> about ten times more often than <b>strain</b>.</p>
+      <p>Informal cover-all: <i>I twisted my ankle</i>.</p>
+    </div>
+    <div class="note">
+      <h4>😵 pass out / be out cold / come round</h4>
+      <p><b>pass out</b> = the moment you lose consciousness (action). <i>He passed out at the sight of blood.</i></p>
+      <p><b>be out cold</b> = the state of being completely unconscious. <i>He was out cold for a minute.</i></p>
+      <p><b>come round</b> (BrE) / <b>come to</b> (AmE) = regain consciousness. <i>She came round in the ambulance.</i></p>
+      <p>⚠️ <b>come round</b> also means "visit someone's house" — context decides.</p>
+    </div>
+    <div class="note">
+      <h4>🤒 come down with vs develop</h4>
+      <p><b>come down with</b> = catch something minor and fast — flu, a cold, a bug. Usually in the continuous: <i>I think I'm coming down with something.</i> Never used with cancer or diabetes.</p>
+      <p><b>develop</b> = gradually start to have a condition, neutral and medical: <i>He developed pneumonia / an allergy / arthritis.</i></p>
+    </div>
+    <div class="note">
+      <h4>🤮 register: vomit / be sick / throw up / puke</h4>
+      <p><b>vomit</b> — neutral-formal, medical reports. <b>be sick</b> — standard BrE (<i>I was sick twice</i>). <b>throw up</b> — informal, very common. <b>puke</b> / <b>barf</b> — slang, avoid at the doctor's.</p>
+      <p>Also: <b>swelling</b> is uncountable here (<i>a lot of swelling</i>), <b>a bruise</b> and <b>a rash</b> are countable. You <b>come out in</b> a rash.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ---------- DATA ---------- */
+const WORDS=[
+ {e:"🌱",t:"on the mend",d:"getting better after an illness or injury",x:"She broke her wrist in June, but she's on the mend now.",r:"идти на поправку"},
+ {e:"🎈",t:"swelling",d:"a part of the body that has become bigger because of injury or infection",x:"The swelling in his knee went down after two days of ice.",r:"отёк, опухоль"},
+ {e:"🔴",t:"a rash",d:"an area of small red spots on the skin",x:"I came out in a rash after taking the antibiotics.",r:"сыпь"},
+ {e:"🐜",t:"itchy",d:"making you want to scratch your skin",x:"The rash is really itchy — try not to scratch it.",r:"зудящий, чешется"},
+ {e:"🤧",t:"to come down with (sth)",d:"to start to suffer from an illness, usually a minor one",x:"I think I'm coming down with something — my throat hurts.",r:"подхватить (болезнь)"},
+ {e:"📄",t:"to be on sick leave",d:"to be officially away from work because you are ill",x:"He's been on sick leave for three weeks.",r:"быть на больничном"},
+ {e:"🤕",t:"to bump your head on sth",d:"to hit your head against something by accident",x:"She stood up and bumped her head on the shelf.",r:"удариться головой"},
+ {e:"🟣",t:"a bruise",d:"a purple or blue mark on the skin after a blow",x:"I've got a huge bruise on my shin from the bike.",r:"синяк"},
+ {e:"🔥",t:"inflammation",d:"redness, heat and swelling as the body's reaction to injury or infection",x:"The scan showed inflammation in the joint.",r:"воспаление"},
+ {e:"🤮",t:"to vomit",d:"to bring food up from the stomach through the mouth",x:"He vomited twice during the night.",r:"рвать, тошнить"},
+ {e:"🦠",t:"a stomach bug",d:"a short infection of the stomach that makes you sick",x:"Half the office has got a stomach bug.",r:"кишечная инфекция"},
+ {e:"😵",t:"to be out cold",d:"to be completely unconscious (the state)",x:"He was out cold for nearly a minute.",r:"быть без сознания"},
+ {e:"💫",t:"to pass out",d:"to suddenly lose consciousness (the moment)",x:"She passed out at the sight of blood.",r:"потерять сознание"},
+ {e:"👁️",t:"to come round",d:"to become conscious again",x:"He came round in the ambulance.",r:"прийти в себя"},
+ {e:"📈",t:"to develop (a disease)",d:"to gradually start to have an illness or condition",x:"He developed pneumonia after the flu.",r:"развиться (о болезни)"},
+ {e:"🦶",t:"to strain (an ankle)",d:"to injure a muscle or tendon by stretching it too far",x:"I strained my ankle running downhill.",r:"растянуть (связки)"}
+];
+
+const TF=[
+ ["If someone is <b>on the mend</b>, they are slowly getting worse.",false,"False — on the mend = recovering, getting better."],
+ ["A <b>bruise</b> is usually purple or blue and appears after you hit something.",true,"True. Bruise = синяк. Compare: a <b>rash</b> is red spots, usually from an allergy or infection."],
+ ["A person who is <b>out cold</b> can still answer simple questions.",false,"False — out cold = completely unconscious. Nobody answers anything."],
+ ["<b>To come round</b> means to lose consciousness.",false,"False — it's the opposite: to come round = to regain consciousness, to wake up after fainting."],
+ ["If you <b>come down with</b> the flu, you have just started to get ill.",true,"True. Come down with = catch an illness, at the beginning. Usually continuous: <i>I'm coming down with something.</i>"],
+ ["A <b>rash</b> is often <b>itchy</b>.",true,"True — and scratching it usually makes it worse."],
+ ["<b>Swelling</b> means a part of the body has got bigger than normal.",true,"True. Note it's uncountable: <i>there was a lot of swelling</i>, not <i>a swelling</i> in most contexts."],
+ ["People <b>on sick leave</b> go to work as usual.",false,"False — they are officially off work. Also: <b>on sick leave</b>, never <i>on a sick leave</i>."],
+ ["A <b>stomach bug</b> normally lasts for several years.",false,"False — it's a short infection, usually 24–72 hours. A chronic illness is not a 'bug'."],
+ ["<b>Inflammation</b> is the body's reaction to injury or infection.",true,"True — redness, heat, swelling and pain together."],
+ ["You <b>strain</b> an ankle by stretching the muscles or tendons too far.",true,"True. Note that for a joint like the ankle, native speakers usually say <b>sprain</b> (ligaments). <b>Strain</b> = muscles and tendons."],
+ ["<b>Pass out</b> describes the moment you lose consciousness, and <b>be out cold</b> describes the state afterwards.",true,"True — that's exactly the difference. <i>He passed out and was out cold for a minute.</i>"],
+ ["<b>To vomit</b> is more formal than <b>to throw up</b>.",true,"True. Register: vomit (neutral/medical) → be sick (BrE standard) → throw up (informal) → puke (slang)."],
+ ["If you <b>bump your head</b> on something, you do it deliberately.",false,"False — bump = hit by accident. Deliberately would be <i>bang / hit your head against sth on purpose.</i>"]
+];
+
+const GAPS=[
+ ["I think I'm __ something — my throat's been sore since yesterday.",["coming down with"]],
+ ["He slipped on the ice and __ his head on the kerb.",["bumped"]],
+ ["There was so much __ around her ankle that she couldn't get her shoe on.",["swelling"]],
+ ["The doctor said the redness was just __ and gave her some cream.",["inflammation"]],
+ ["She's been __ since Monday — her manager sent the note to HR.",["on sick leave","on sick-leave"]],
+ ["He __ at the sight of the needle and hit the floor.",["passed out"]],
+ ["When he finally __, he had no idea where he was.",["came round","came to"]],
+ ["He was __ for almost a minute before the paramedics arrived.",["out cold"]],
+ ["I've got a huge purple __ on my knee from the bike.",["bruise"]],
+ ["Don't scratch it — I know the __ is horribly __, but you'll make it worse.",["rash"],["itchy"]],
+ ["Half the class has got a __ — three kids were sick in the corridor.",["stomach bug"]],
+ ["He __ three times in the night and couldn't keep any water down.",["vomited"]],
+ ["Two weeks after the operation she __ a serious infection.",["developed"]],
+ ["I __ my ankle running downhill and had to walk all the way back.",["strained"]],
+ ["She's still weak, but the doctor says she's __.",["on the mend"]]
+];
+
+const STORY=[
+ {txt:"On Monday morning Mr Dalton already knew he was "},
+ {gap:["coming down with","getting over","coming round to","on the mend with"]},
+ {txt:" something. His throat hurt, his eyes were watering, and by the first lesson he had a strange red "},
+ {gap:["rash","bruise","swelling","strain"]},
+ {txt:" on both arms. It was unbelievably "},
+ {gap:["itchy","swollen","bruised","inflamed"]},
+ {txt:", and the more he scratched, the worse it got.",p:true},
+
+ {txt:"By lunchtime half of Year 9 was missing. A "},
+ {gap:["stomach bug","sick leave","rash","swelling"]},
+ {txt:" had gone round the school: two boys had "},
+ {gap:["vomited","bumped","strained","developed"]},
+ {txt:" in the corridor before the bell, and the cleaners had simply given up.",p:true},
+
+ {txt:"Mr Dalton decided to carry on anyway. That was mistake number one. During the football match he "},
+ {gap:["strained","vomited","came round","passed out"]},
+ {txt:" his ankle and went down in the mud like a man who had been shot. Mistake number two was standing up too quickly: he "},
+ {gap:["bumped","strained","developed","came round"]},
+ {txt:" his head on the crossbar, "},
+ {gap:["passed out","came round","came down","got on the mend"]},
+ {txt:", and lay in the goal mouth in front of thirty delighted teenagers.",p:true},
+
+ {txt:"He was "},
+ {gap:["out cold","on the mend","on sick leave","itchy"]},
+ {txt:" for about forty seconds. When he finally "},
+ {gap:["came round","passed out","came down with","bumped"]},
+ {txt:", the first thing he saw was a phone camera. By the evening the video had two thousand views.",p:true},
+
+ {txt:"At the hospital the doctor was not impressed. There was significant "},
+ {gap:["swelling","sick leave","bug","rash"]},
+ {txt:" around the ankle, a purple "},
+ {gap:["bruise","rash","swelling","inflammation"]},
+ {txt:" the size of an orange on his hip, and some "},
+ {gap:["inflammation","bug","rash","bruise"]},
+ {txt:" where he had hit his head. \u201CRest,\u201D she said. \u201CIgnore this and you'll "},
+ {gap:["develop","come round","pass out","strain"]},
+ {txt:" something far more serious.\u201D",p:true},
+
+ {txt:"So Mr Dalton spent the next three weeks "},
+ {gap:["on sick leave","on the mend","out cold","itchy"]},
+ {txt:", watching daytime television and answering messages from colleagues who all wanted to know whether the video was real.",p:true},
+
+ {txt:"He's "},
+ {gap:["on the mend","out cold","on sick leave","itchy"]},
+ {txt:" now. He still can't run. And Year 9 still have the video."}
+];
+
+/* ---------- HELPERS ---------- */
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>s.toLowerCase().trim().replace(/\s+/g," ").replace(/[.,!?]/g,"");
+
+/* ---------- TABS ---------- */
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+  document.querySelectorAll(".panel").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on");$("#"+b.dataset.t).classList.add("on");
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+/* ---------- FLASHCARDS ---------- */
+function renderFC(list){
+  $("#fcGrid").innerHTML=list.map(w=>`
+    <div class="fc"><div class="fc-in">
+      <div class="face front">
+        <div class="emo">${w.e}</div>
+        <div class="term">${w.t}</div>
+        <div class="tap">tap to flip</div>
+      </div>
+      <div class="face back">
+        <div class="term">${w.e} ${w.t}</div>
+        <div class="def">${w.d}</div>
+        <div class="ex">"${w.x}"</div>
+        <div class="ru">${w.r}</div>
+      </div>
+    </div></div>`).join("");
+  document.querySelectorAll(".fc").forEach(c=>c.onclick=()=>c.classList.toggle("flip"));
+}
+renderFC(WORDS);
+$("#fcShuffle").onclick=()=>renderFC(shuffle(WORDS));
+$("#fcFlip").onclick=()=>document.querySelectorAll(".fc").forEach(c=>c.classList.toggle("flip"));
+$("#fcReset").onclick=()=>{renderFC(WORDS);};
+
+/* ---------- TRUE / FALSE ---------- */
+let tfDone=0,tfRight=0;
+function renderTF(){
+  tfDone=0;tfRight=0;$("#tfScore").textContent="0 / "+TF.length;
+  $("#tfList").innerHTML=TF.map((q,i)=>`
+    <div class="tf" data-i="${i}">
+      <div class="q"><b>${i+1}.</b>${q[0]}</div>
+      <div class="opts">
+        <button class="opt" data-v="1">True</button>
+        <button class="opt" data-v="0">False</button>
+      </div>
+      <div class="exp">${q[2]}</div>
+    </div>`).join("");
+  document.querySelectorAll("#tfList .opt").forEach(b=>b.onclick=()=>{
+    const box=b.closest(".tf");if(box.classList.contains("done"))return;
+    const i=+box.dataset.i, picked=b.dataset.v==="1", correct=TF[i][1];
+    box.classList.add("done");tfDone++;
+    if(picked===correct){b.classList.add("ok");tfRight++}
+    else{b.classList.add("bad");box.querySelector(`.opt[data-v="${correct?1:0}"]`).classList.add("ok")}
+    $("#tfScore").textContent=tfRight+" / "+TF.length+(tfDone===TF.length?" ✦ finished":"");
+  });
+}
+renderTF();
+$("#tfReset").onclick=renderTF;
+
+/* ---------- GAPS ---------- */
+const BANK=WORDS.map(w=>w.t.replace(/^(to|a) /,"").replace(/ \(.*\)$/,"").replace(/ \(sth\)/,""));
+$("#gpBank").innerHTML=BANK.map(w=>`<span class="chip">${w}</span>`).join("");
+
+function renderGP(){
+  let n=0;
+  $("#gpList").innerHTML=GAPS.map((row,i)=>{
+    const answers=row.slice(1);
+    let html=row[0];
+    answers.forEach(a=>{
+      n++;
+      html=html.replace("__",`<input class="blank" data-a='${JSON.stringify(a)}' autocomplete="off" spellcheck="false">`);
+    });
+    return `<div class="gap"><b class="n">${i+1}.</b>${html}<div class="sol"></div></div>`;
+  }).join("");
+  $("#gpScore").textContent="— / "+n;
+}
+renderGP();
+$("#gpCheck").onclick=()=>{
+  let ok=0,total=0;
+  document.querySelectorAll("#gpList .gap").forEach(g=>{
+    let bad=[];
+    g.querySelectorAll("input.blank").forEach(inp=>{
+      total++;
+      const acc=JSON.parse(inp.dataset.a).map(norm);
+      inp.classList.remove("ok","bad");
+      if(acc.includes(norm(inp.value))&&inp.value.trim()){inp.classList.add("ok");ok++}
+      else{inp.classList.add("bad");bad.push(JSON.parse(inp.dataset.a)[0])}
+    });
+    if(bad.length){g.classList.add("show");g.querySelector(".sol").textContent="→ "+bad.join(" / ")}
+    else{g.classList.remove("show")}
+  });
+  $("#gpScore").textContent=ok+" / "+total;
+};
+$("#gpShow").onclick=()=>{
+  document.querySelectorAll("#gpList input.blank").forEach(inp=>{
+    inp.value=JSON.parse(inp.dataset.a)[0];inp.classList.remove("bad");inp.classList.add("ok");
+  });
+  document.querySelectorAll("#gpList .gap").forEach(g=>g.classList.remove("show"));
+};
+$("#gpReset").onclick=()=>{renderGP();document.querySelectorAll(".chip").forEach(c=>c.classList.remove("used"))};
+
+/* ---------- STORY ---------- */
+function renderST(){
+  let html="<h3>🏫 The Worst Week at Hillside School</h3><p>",n=0;
+  STORY.forEach(part=>{
+    if(part.gap){
+      n++;
+      const correct=part.gap[0];
+      const opts=shuffle(part.gap).map(o=>`<option value="${o}">${o}</option>`).join("");
+      html+=`<select class="sel" data-a="${correct}"><option value="">— ${n} —</option>${opts}</select>`;
+    }else{
+      html+=part.txt;
+      if(part.p)html+="</p><p>";
+    }
+  });
+  html+="</p>";
+  $("#story").innerHTML=html;
+  $("#stScore").textContent="— / "+n;
+}
+renderST();
+$("#stCheck").onclick=()=>{
+  let ok=0,total=0;
+  document.querySelectorAll("#story select").forEach(s=>{
+    total++;s.classList.remove("ok","bad");
+    if(s.value===s.dataset.a){s.classList.add("ok");ok++}else{s.classList.add("bad")}
+  });
+  $("#stScore").textContent=ok+" / "+total;
+};
+$("#stShow").onclick=()=>{
+  document.querySelectorAll("#story select").forEach(s=>{
+    s.value=s.dataset.a;s.classList.remove("bad");s.classList.add("ok");
+  });
+  const t=document.querySelectorAll("#story select").length;
+  $("#stScore").textContent=t+" / "+t;
+};
+$("#stReset").onclick=renderST;
+</script>
+</body>
+</html>
